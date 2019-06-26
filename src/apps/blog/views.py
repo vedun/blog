@@ -8,3 +8,4 @@ User = get_user_model()
 class AuthorList(ListView):
     model = User
     template_name = 'blog/author_list.html'
+    context_object_name = 'authors'

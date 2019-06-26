@@ -1,10 +1,15 @@
 {% load static %}
-<html>
+<!DOCTYPE html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
-    {# <link rel="stylesheet" media="all" type="text/css" href="{% static 'css/style.css' %}"> #}
+    <link rel="stylesheet" href="{% static 'blog/bulma/css/bulma.min.css' %}">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
-    {% block body %}{% endblock %}
+    <div class="container">
+      {% block body %}{% endblock %}
+    </div>
   </body>
 </html>

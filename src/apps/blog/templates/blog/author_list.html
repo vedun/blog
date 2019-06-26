@@ -2,5 +2,32 @@
 {% load static %}
 
 {% block body %}
-  <h1>author list</h1>
+  <div class="columns">
+    <div class="column">
+      <h1>author list</h1>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="column">
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>Author</th>
+            <th>action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for author in authors %}
+            <tr>
+              <th>{{ author.username }}</th>
+              <td>
+                {% if user.is_authenticated %}<a href="button">Subscribe</a>{% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 {% endblock %}

@@ -1,4 +1,6 @@
 .idea/
+.mypy_cache/
+.vscode/
 media_root/
 *.pyc
 *.sqlite3

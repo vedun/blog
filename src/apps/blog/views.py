@@ -19,7 +19,11 @@ class AuthorList(ListView):
         current_user = self.request.user
         qs = super().get_queryset()
         if current_user.is_authenticated:
+            subscribed_pk_list = [
+                user.pk for user in current_user.subscriptions.all()
+            ]
             qs = qs.exclude(pk=current_user.pk)
+            qs = qs.exclude(pk__in=subscribed_pk_list)
         return qs
 
 

@@ -1,0 +1,5 @@
+.idea/
+media_root/
+*.pyc
+*.sqlite3
+ve/

@@ -9,6 +9,29 @@
   </head>
   <body>
     <div class="container">
+      {% if messages %}
+        <div class="columns">
+          <div class="column">
+            {% for message in messages %}
+              {% if message.tags == 'error' %}
+                <div class="notification is-danger">{{ message }}</div>
+              {% endif %}
+              {% if message.tags == 'warning' %}
+                <div class="notification is-warning">{{ message }}</div>
+              {% endif %}
+              {% if message.tags == 'success' %}
+                <div class="notification is-success">{{ message }}</div>
+              {% endif %}
+              {% if message.tags == 'info' %}
+                <div class="notification is-info">{{ message }}</div>
+              {% endif %}
+              {% if message.tags == 'debug' %}
+                <div class="notification is-info">{{ message }}</div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
       {% block body %}{% endblock %}
     </div>
   </body>

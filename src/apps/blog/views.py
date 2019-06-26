@@ -1,5 +1,10 @@
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.views.generic import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import ListView, CreateView, View
 
 
 User = get_user_model()
@@ -9,3 +14,27 @@ class AuthorList(ListView):
     model = User
     template_name = 'blog/author_list.html'
     context_object_name = 'authors'
+
+    def get_queryset(self):
+        current_user = self.request.user
+        qs = super().get_queryset()
+        if current_user.is_authenticated:
+            qs = qs.exclude(pk=current_user.pk)
+        return qs
+
+
+class SubscribeView(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        current_user = request.user
+        if current_user.pk == pk:
+            return HttpResponseRedirect(reverse('blog:author-list'))
+        try:
+            subscribing_user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            messages.error(request, _('subscribing error'))
+            return HttpResponseRedirect(reverse('blog:author-list'))
+        current_user.subscriptions.add(subscribing_user)
+        messages.success(request, _('successfuly subscribed'))
+        return HttpResponseRedirect(reverse('blog:author-list'))

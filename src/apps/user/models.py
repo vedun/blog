@@ -4,4 +4,6 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    subscriptions = models.ManyToManyField('self', symmetrical=False)
+    subscriptions = models.ManyToManyField(
+        'self', symmetrical=False, related_name='subscribers'
+    )

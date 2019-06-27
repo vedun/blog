@@ -4,7 +4,7 @@
 {% block body %}
   <div class="columns">
     <div class="column">
-      {% include 'blog/top_menu.html' with active_item='author_list' %}
+      {% include 'blog/top_menu.html' with active_item='subscriptions' %}
     </div>
   </div>
 
@@ -18,14 +18,14 @@
           </tr>
         </thead>
         <tbody>
-          {% for author in authors %}
+          {% for subscription in subscriptions %}
             <tr>
-              <th>{{ author.username }}</th>
+              <th>{{ subscription.username }}</th>
               <td>
                 {% if user.is_authenticated %}
-                  <form action="{% url 'blog:subscribe' pk=author.pk %}" method="post">
+                  <form action="{% url 'blog:unsubscribe' pk=subscription.pk %}" method="post">
                     {% csrf_token %}
-                    <input class="button" type="submit" value="Subscribe">
+                    <input class="button" type="submit" value="Unsubscribe">
                   </form>
                 {% endif %}
               </td>

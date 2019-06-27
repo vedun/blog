@@ -27,6 +27,15 @@ class AuthorList(ListView):
         return qs
 
 
+class SubscriptionsList(LoginRequiredMixin, ListView):
+    template_name = 'blog/subscriptions_list.html'
+    context_object_name = 'subscriptions'
+
+    def get_queryset(self):
+        current_user = self.request.user
+        return current_user.subscriptions.all()
+
+
 class SubscribeView(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
@@ -42,3 +51,20 @@ class SubscribeView(LoginRequiredMixin, View):
         current_user.subscriptions.add(subscribing_user)
         messages.success(request, _('successfuly subscribed'))
         return HttpResponseRedirect(reverse('blog:author-list'))
+
+
+class UnsubscribeView(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        current_user = request.user
+        # if current_user.pk == pk:
+        #     return HttpResponseRedirect(reverse('blog:author-list'))
+        try:
+            unsubscribing_user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            messages.error(request, _('unsubscribing error'))
+            return HttpResponseRedirect(reverse('blog:subscriptions'))
+        current_user.subscriptions.remove(unsubscribing_user)
+        messages.success(request, _('successfuly unsubscribed'))
+        return HttpResponseRedirect(reverse('blog:subscriptions'))

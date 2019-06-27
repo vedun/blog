@@ -1,0 +1,33 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block body %}
+  <div class="columns">
+    <div class="column">
+      {% include 'blog/top_menu.html' with active_item='my-posts-list' %}
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="column">
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Body</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for post in posts %}
+            <tr>
+              <th>{{ post.title }}</th>
+              <td>
+                {{ post.body|truncatewords:3 }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

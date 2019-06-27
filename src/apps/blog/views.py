@@ -73,9 +73,21 @@ class UnsubscribeView(LoginRequiredMixin, View):
 class PostCreate(LoginRequiredMixin, CreateView):
     template_name = 'blog/post_create.html'
     form_class = PostCreateForm
-    success_url = reverse_lazy('blog:subscriptions')
+    success_url = reverse_lazy('blog:my-posts-list')
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.author = self.request.user
         return super().form_valid(form)
+
+
+class MyPostsList(LoginRequiredMixin, ListView):
+    model = Post
+    template_name = 'blog/my_posts_list.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        current_user = self.request.user
+        qs = super().get_queryset()
+        qs = qs.filter(author=current_user)
+        return qs

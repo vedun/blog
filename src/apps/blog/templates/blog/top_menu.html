@@ -17,6 +17,11 @@
         <span>{% trans 'New post' %}</span>
       </a>
     </li>
+    <li class="{% if active_item == 'my-posts-list' %}is-active{% endif %}">
+      <a href="{% url 'blog:my-posts-list' %}">
+        <span>{% trans 'My posts' %}</span>
+      </a>
+    </li>
     {% endif %}
   </ul>
 </div>

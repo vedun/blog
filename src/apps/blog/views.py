@@ -131,7 +131,8 @@ class NewsFeed(LoginRequiredMixin, ListView):
         context = super().get_context_data(*args, **kwargs)
         current_user = self.request.user
         read_posts_pk = [
-            post_reader.post.pk for post_reader in PostReader.objects.select_related(
+            post_reader.post.pk for post_reader in
+            PostReader.objects.select_related(
                 'post', 'reader'
             ).filter(
                 reader=current_user, post__in=context['posts']

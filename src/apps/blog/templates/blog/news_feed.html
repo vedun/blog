@@ -13,6 +13,7 @@
       <table class="table is-fullwidth">
         <thead>
           <tr>
+            <th>Author</th>
             <th>Title</th>
             <th>Body</th>
           </tr>
@@ -20,6 +21,7 @@
         <tbody>
           {% for post in posts %}
             <tr>
+              <td>{{ post.author.username }}</td>
               <td>{{ post.title }}</td>
               <td>
                 {{ post.body|truncatewords:3 }}

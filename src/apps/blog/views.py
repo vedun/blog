@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, CreateView, View
+from .models import Post
 
 
 User = get_user_model()
@@ -58,8 +59,6 @@ class UnsubscribeView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         current_user = request.user
-        # if current_user.pk == pk:
-        #     return HttpResponseRedirect(reverse('blog:author-list'))
         try:
             unsubscribing_user = User.objects.get(pk=pk)
         except User.DoesNotExist:
@@ -68,3 +67,9 @@ class UnsubscribeView(LoginRequiredMixin, View):
         current_user.subscriptions.remove(unsubscribing_user)
         messages.success(request, _('successfuly unsubscribed'))
         return HttpResponseRedirect(reverse('blog:subscriptions'))
+
+
+class PostCreate(CreateView):
+    model = Post
+    template_name = 'blog/create_post.html'
+    fields = ['title', 'body']

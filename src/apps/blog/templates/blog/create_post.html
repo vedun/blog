@@ -1,0 +1,16 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block body %}
+  <div class="columns">
+    <div class="column">
+      {% include 'blog/top_menu.html' with active_item='post-create' %}
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="column">
+      Post create
+    </div>
+  </div>
+{% endblock %}

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.urls import path
 from .views import AuthorList, SubscribeView, UnsubscribeView, \
-    SubscriptionsList
+    SubscriptionsList, PostCreate
 
 app_name = 'blog'
 
@@ -12,4 +12,5 @@ urlpatterns = [
         'unsubscribe/<int:pk>/', UnsubscribeView.as_view(), name='unsubscribe'
     ),
     path('subscriptions/', SubscriptionsList.as_view(), name='subscriptions'),
+    path('post/add/', PostCreate.as_view(), name='post-create'),
 ]

@@ -1,7 +1,7 @@
 {% load i18n %}
 <div class="tabs is-boxed">
   <ul>
-    <li class="{% if active_item == 'author_list' %}is-active{% endif %}">
+    <li class="{% if active_item == 'author-list' %}is-active{% endif %}">
       <a href="{% url 'blog:author-list' %}">
         <span>{% trans 'Author list' %}</span>
       </a>
@@ -9,6 +9,11 @@
     <li class="{% if active_item == 'subscriptions' %}is-active{% endif %}">
       <a href="{% url 'blog:subscriptions' %}">
         <span>{% trans 'Subscriptions' %}</span>
+      </a>
+    </li>
+    <li class="{% if active_item == 'post-create' %}is-active{% endif %}">
+      <a href="{% url 'blog:post-create' %}">
+        <span>{% trans 'New post' %}</span>
       </a>
     </li>
   </ul>

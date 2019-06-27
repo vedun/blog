@@ -91,3 +91,17 @@ class MyPostsList(LoginRequiredMixin, ListView):
         qs = super().get_queryset()
         qs = qs.filter(author=current_user)
         return qs
+
+
+class NewsFeed(LoginRequiredMixin, ListView):
+    model = Post
+    template_name = 'blog/news_feed.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        current_user = self.request.user
+        qs = super().get_queryset()
+        subscribed_to = current_user.subscriptions.all()
+        qs = qs.exclude(pk=current_user.pk).filter(author__in=subscribed_to)
+        qs = qs.order_by('-creation_date').all()
+        return qs

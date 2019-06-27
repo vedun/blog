@@ -133,3 +133,10 @@ CACHES = {
         'LOCATION': 'staticfiles-filehashes'
     }
 }
+
+# Debug toolbar
+if DEBUG:
+    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] +\
+        MIDDLEWARE
+    INTERNAL_IPS = ['127.0.0.1']
+    INSTALLED_APPS += ['debug_toolbar']

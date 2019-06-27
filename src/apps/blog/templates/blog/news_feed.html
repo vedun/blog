@@ -16,6 +16,7 @@
             <th>Author</th>
             <th>Title</th>
             <th>Body</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -25,6 +26,12 @@
               <td>{{ post.title }}</td>
               <td>
                 {{ post.body|truncatewords:3 }}
+              </td>
+              <td>
+                <form action="{% url 'blog:mark-as-read' pk=post.pk %}" method="post">
+                    {% csrf_token %}
+                    <input class="button is-small" type="submit" value="mark as read">
+                </form>
               </td>
             </tr>
           {% endfor %}

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.urls import path
 from .views import AuthorList, SubscribeView, UnsubscribeView, \
-    SubscriptionsList, PostCreate, MyPostsList, NewsFeed
+    SubscriptionsList, PostCreate, MyPostsList, NewsFeed, MarkAsRead
 
 app_name = 'blog'
 
@@ -15,4 +15,5 @@ urlpatterns = [
     path('post/add/', PostCreate.as_view(), name='post-create'),
     path('my_posts/', MyPostsList.as_view(), name='my-posts-list'),
     path('news_feed/', NewsFeed.as_view(), name='news-feed'),
+    path('mark_as_read/<int:pk>/', MarkAsRead.as_view(), name='mark-as-read'),
 ]

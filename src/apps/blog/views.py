@@ -1,12 +1,13 @@
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
+from django.db.utils import IntegrityError
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, CreateView, View
 from .forms import PostCreateForm
-from .models import Post
+from .models import Post, PostReader
 
 
 User = get_user_model()
@@ -68,6 +69,25 @@ class UnsubscribeView(LoginRequiredMixin, View):
         current_user.subscriptions.remove(unsubscribing_user)
         messages.success(request, _('successfuly unsubscribed'))
         return HttpResponseRedirect(reverse('blog:subscriptions'))
+
+
+class MarkAsRead(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        # pylint: disable=E1101
+        pk = kwargs.get('pk')
+        current_user = request.user
+        try:
+            post = Post.objects.get(pk=pk)
+        except Post.DoesNotExist:
+            messages.error(request, _('post does not exists'))
+            return HttpResponseRedirect(reverse('blog:news-feed'))
+        try:
+            post_reader = PostReader(post=post, reader=current_user)
+            post_reader.save()
+        except IntegrityError:
+            messages.error(request, _('allready mark as read'))
+        return HttpResponseRedirect(reverse('blog:news-feed'))
 
 
 class PostCreate(LoginRequiredMixin, CreateView):

@@ -11,12 +11,14 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import tempfile
 from os import path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = path.abspath(path.join(path.dirname(__file__), '..'))
 
+TEMP_DIR = tempfile.gettempdir()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -140,3 +142,10 @@ if DEBUG:
         MIDDLEWARE
     INTERNAL_IPS = ['127.0.0.1']
     INSTALLED_APPS += ['debug_toolbar']
+
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = path.join(TEMP_DIR, 'blog-emails')
+EMAIL_FROM = 'not-reply@example.com'
+DEFAULT_FROM_EMAIL = EMAIL_FROM

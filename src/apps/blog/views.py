@@ -100,8 +100,9 @@ class NewsFeed(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         current_user = self.request.user
-        qs = super().get_queryset()
         subscribed_to = current_user.subscriptions.all()
-        qs = qs.exclude(pk=current_user.pk).filter(author__in=subscribed_to)
-        qs = qs.order_by('-creation_date').all()
-        return qs
+        return super().get_queryset().\
+            select_related('author').\
+            exclude(pk=current_user.pk).\
+            filter(author__in=subscribed_to).\
+            order_by('-creation_date').all()

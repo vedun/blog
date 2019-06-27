@@ -22,3 +22,23 @@ class Post(models.Model):
         verbose_name = _('Post')
         verbose_name_plural = _('Posts')
         ordering = ('pk',)
+
+    def __str__(self):
+        return f'{self.author}:{self.title}'
+
+
+class PostReader(models.Model):
+    post = models.ForeignKey(
+        Post, models.CASCADE,
+        verbose_name=_('Post'),
+    )
+    reader = models.ForeignKey(
+        settings.AUTH_USER_MODEL, models.CASCADE,
+        verbose_name=_('Reader'),
+    )
+
+    class Meta:
+        verbose_name = _('Post reader list')
+        verbose_name_plural = _('Posts readers list')
+        ordering = ('pk',)
+        unique_together = ('post', 'reader')

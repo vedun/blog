@@ -125,3 +125,17 @@ class NewsFeed(LoginRequiredMixin, ListView):
             select_related('author').\
             filter(author__in=subscribed_to).\
             order_by('-creation_date').all()
+
+    def get_context_data(self, *args, **kwargs):
+        # pylint: disable=E1101
+        context = super().get_context_data(*args, **kwargs)
+        current_user = self.request.user
+        read_posts_pk = [
+            post_reader.post.pk for post_reader in PostReader.objects.select_related(
+                'post', 'reader'
+            ).filter(
+                reader=current_user, post__in=context['posts']
+            ).all()
+        ]
+        context.update(read_posts_pk=read_posts_pk)
+        return context

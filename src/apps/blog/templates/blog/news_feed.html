@@ -28,10 +28,12 @@
                 {{ post.body|truncatewords:3 }}
               </td>
               <td>
+                {% if post.pk not in read_posts_pk %}
                 <form action="{% url 'blog:mark-as-read' pk=post.pk %}" method="post">
                     {% csrf_token %}
                     <input class="button is-small" type="submit" value="mark as read">
                 </form>
+                {% endif %}
               </td>
             </tr>
           {% endfor %}

@@ -10,7 +10,49 @@
 
   <div class="columns">
     <div class="column">
-      Post create
+
+      {{ form.non_field_errors }}
+
+      <form action="" method="POST">
+        {% csrf_token %}
+        <div class="field">
+          <label class="label">{{ form.title.label }}</label>
+          <div class="control">
+            <input class="input" type="text" name='{{ form.title.name }}' value="{% if form.title.value %}{{ form.title.value }}{% endif %}">
+            {% if form.title.errors %}
+              <ul>
+                {% for error in form.title.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">{{ form.body.label }}</label>
+          <div class="control">
+            <textarea class="textarea" placeholder="" name="{{ form.body.name }}">{% if form.body.value %}{{ form.body.value }}{% endif %}</textarea>
+            {% if form.body.errors %}
+              <ul>
+                {% for error in form.body.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link">Create</button>
+          </div>
+        </div>
+
+      </form>
+
+
+
     </div>
   </div>
 {% endblock %}

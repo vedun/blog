@@ -6,6 +6,7 @@
         <span>{% trans 'Author list' %}</span>
       </a>
     </li>
+    {% if user.is_authenticated %}
     <li class="{% if active_item == 'subscriptions' %}is-active{% endif %}">
       <a href="{% url 'blog:subscriptions' %}">
         <span>{% trans 'Subscriptions' %}</span>
@@ -16,5 +17,6 @@
         <span>{% trans 'New post' %}</span>
       </a>
     </li>
+    {% endif %}
   </ul>
 </div>

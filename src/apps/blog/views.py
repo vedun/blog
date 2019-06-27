@@ -1,10 +1,11 @@
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, CreateView, View
+from .forms import PostCreateForm
 from .models import Post
 
 
@@ -69,7 +70,12 @@ class UnsubscribeView(LoginRequiredMixin, View):
         return HttpResponseRedirect(reverse('blog:subscriptions'))
 
 
-class PostCreate(CreateView):
-    model = Post
+class PostCreate(LoginRequiredMixin, CreateView):
     template_name = 'blog/create_post.html'
-    fields = ['title', 'body']
+    form_class = PostCreateForm
+    success_url = reverse_lazy('blog:subscriptions')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user
+        return super().form_valid(form)

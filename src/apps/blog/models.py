@@ -41,8 +41,8 @@ class PostReader(models.Model):
     )
 
     class Meta:
-        verbose_name = _('Post reader list')
-        verbose_name_plural = _('Posts readers list')
+        verbose_name = _('Post reader')
+        verbose_name_plural = _('Posts readers')
         ordering = ('pk',)
         unique_together = ('post', 'reader')
 

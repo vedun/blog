@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import ListView, CreateView, View
+from django.views.generic import ListView, CreateView, View, DetailView
 from .forms import PostCreateForm
 from .models import Post, PostReader
 
@@ -99,6 +99,11 @@ class PostCreate(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.author = self.request.user
         return super().form_valid(form)
+
+
+class PostDetail(DetailView):
+    model = Post
+    template_name = 'blog/post_detail.html'
 
 
 class MyPostsList(LoginRequiredMixin, ListView):

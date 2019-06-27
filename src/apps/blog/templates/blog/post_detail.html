@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block body %}
+  <div class="columns">
+    <div class="column">
+      {% include 'blog/top_menu.html' with active_item='' %}
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="column">
+
+      <section>
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.body }}</p>
+      </section>
+
+    </div>
+  </div>
+{% endblock %}

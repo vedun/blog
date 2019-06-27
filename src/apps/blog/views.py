@@ -71,7 +71,7 @@ class UnsubscribeView(LoginRequiredMixin, View):
 
 
 class PostCreate(LoginRequiredMixin, CreateView):
-    template_name = 'blog/create_post.html'
+    template_name = 'blog/post_create.html'
     form_class = PostCreateForm
     success_url = reverse_lazy('blog:subscriptions')
 

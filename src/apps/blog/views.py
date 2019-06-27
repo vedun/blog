@@ -103,6 +103,5 @@ class NewsFeed(LoginRequiredMixin, ListView):
         subscribed_to = current_user.subscriptions.all()
         return super().get_queryset().\
             select_related('author').\
-            exclude(pk=current_user.pk).\
             filter(author__in=subscribed_to).\
             order_by('-creation_date').all()

@@ -1,7 +1,10 @@
+from django.urls import reverse
 from django.db import models
+from django.db.models.signals import post_save
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.core import validators
+from .utils import new_post_email
 
 
 class Post(models.Model):
@@ -42,3 +45,16 @@ class PostReader(models.Model):
         verbose_name_plural = _('Posts readers list')
         ordering = ('pk',)
         unique_together = ('post', 'reader')
+
+
+def send_emails(sender, **kwargs):
+    if kwargs['created']:
+        new_post = kwargs['instance']
+        new_post_email(
+            new_post.author.subscribers.all(),
+            #  FIXME: лучше пока ничего не придумал
+            'http://localhost:8000{}'.format(
+                reverse('blog:post-detail', kwargs={'pk': new_post.pk})
+            ),
+        )
+post_save.connect(send_emails, sender=Post)
